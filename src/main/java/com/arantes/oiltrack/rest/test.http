@@ -1,0 +1,17 @@
+### Teste GET
+GET http://localhost:8080/costomers
+Content-Type: application/json
+
+### Teste POST
+POST http://localhost:8080/costomers
+Content-Type: application/json
+
+
+{
+  "name": "João Da Silva",
+  "corporateReason": "empresa x",
+  "cnpj": "00.000.000/0001-00",
+  "phone": "11999999999",
+  "mail": "contato@xpto.com",
+  "address": "Rua das Indústrias, 123"
+}
