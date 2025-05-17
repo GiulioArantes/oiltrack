@@ -2,6 +2,10 @@
 GET http://localhost:8080/costomers
 Content-Type: application/json
 
+### Teste GET - GetById
+GET http://localhost:8080/costomers/1
+Content-Type: application/json
+
 ### Teste POST
 POST http://localhost:8080/costomers
 Content-Type: application/json
@@ -15,3 +19,21 @@ Content-Type: application/json
   "mail": "contato@xpto.com",
   "address": "Rua das Indústrias, 123"
 }
+
+### Teste PUT
+PUT http://localhost:8080/costomers/1
+Content-Type: application/json
+
+
+{
+  "name": "João Moreira",
+  "corporateReason": "empresa y",
+  "cnpj": "00.000.000/0001-00",
+  "phone": "11999999999",
+  "mail": "contato@xpto.com",
+  "address": "Rua das Indústrias, 321"
+}
+
+### Teste DELETE
+DELETE  http://localhost:8080/costomers/2
+Content-Type: application/json

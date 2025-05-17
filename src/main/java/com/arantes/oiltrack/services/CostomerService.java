@@ -23,9 +23,9 @@ public class CostomerService {
 
     }
 
-    public Costomer findById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Consumidor não encontrado"));
+    public CostomerResponseDTO findById(Long id) {
+        return repository.findById(id).map(CostomerResponseDTO::new)
+                .orElseThrow(() -> new EntityNotFoundException("Consumidor não encontrado")); // Criar uma exception
     }
 
     public CostomerResponseDTO insert(CostomerRequestDTO data) {
@@ -38,21 +38,21 @@ public class CostomerService {
             repository.deleteById(id);
         } catch (RuntimeException e) {
             e.printStackTrace();
-        }
+        } // Criar uma excpetion
     }
 
-    public Costomer update(Long id, Costomer costomer) {
+    public CostomerResponseDTO update(Long id, CostomerRequestDTO costomerDTO) {
         Costomer obj = repository.getReferenceById(id);
-        updateData(obj, costomer);
-        return repository.save(obj);
+        updateData(obj, costomerDTO);
+        return new CostomerResponseDTO(repository.save(obj)); // Criar uma excpetion
     }
 
-    private void updateData(Costomer entity, Costomer obj) {
-        entity.setName(obj.getName());
-        entity.setCnpj(obj.getCnpj());
-        entity.setCorporateReason(obj.getCorporateReason());
-        entity.setMail(obj.getMail());
-        entity.setPhone(obj.getPhone());
-        entity.setAddress(obj.getAddress());
+    private void updateData(Costomer entity, CostomerRequestDTO receivedCostomerDTO) {
+        entity.setName(receivedCostomerDTO.name());
+        entity.setCnpj(receivedCostomerDTO.cnpj());
+        entity.setCorporateReason(receivedCostomerDTO.corporateReason());
+        entity.setMail(receivedCostomerDTO.mail());
+        entity.setPhone(receivedCostomerDTO.phone());
+        entity.setAddress(receivedCostomerDTO.address());
     }
 }
