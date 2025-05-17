@@ -3,7 +3,7 @@ GET http://localhost:8080/costomers
 Content-Type: application/json
 
 ### Teste GET - GetById
-GET http://localhost:8080/costomers/1
+GET http://localhost:8080/costomers/4
 Content-Type: application/json
 
 ### Teste POST

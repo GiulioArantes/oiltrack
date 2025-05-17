@@ -1,4 +1,4 @@
-package com.arantes.oiltrack.controller;
+package com.arantes.oiltrack.controllers;
 
 import java.util.List;
 
