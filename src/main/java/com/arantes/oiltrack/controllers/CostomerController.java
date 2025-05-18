@@ -51,7 +51,6 @@ public class CostomerController {
         return ResponseEntity.ok(service.update(id, CostomerDTO));
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         service.delete(id);

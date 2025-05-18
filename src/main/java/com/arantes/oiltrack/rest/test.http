@@ -21,7 +21,7 @@ Content-Type: application/json
 }
 
 ### Teste PUT
-PUT http://localhost:8080/costomers/1
+PUT http://localhost:8080/costomers/3
 Content-Type: application/json
 
 
@@ -35,5 +35,5 @@ Content-Type: application/json
 }
 
 ### Teste DELETE
-DELETE  http://localhost:8080/costomers/2
+DELETE  http://localhost:8080/costomers/4
 Content-Type: application/json
