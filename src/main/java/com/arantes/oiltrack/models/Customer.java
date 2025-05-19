@@ -1,6 +1,6 @@
 package com.arantes.oiltrack.models;
 
-import com.arantes.oiltrack.dto.costomer.CostomerRequestDTO;
+import com.arantes.oiltrack.dto.customer.CustomerRequestDTO;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,8 +22,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString(of = { "name" })
 @EqualsAndHashCode(of = { "id" })
-@Table(name = "tb_costomers")
-public class Costomer {
+@Table(name = "tb_customers")
+public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,7 +55,7 @@ public class Costomer {
     @Size(max = 100)
     private String address;
 
-    public Costomer(CostomerRequestDTO data) {
+    public Customer(CustomerRequestDTO data) {
         this.name = data.name();
         this.corporateReason = data.corporateReason();
         this.cnpj = data.cnpj();
