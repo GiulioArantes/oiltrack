@@ -26,7 +26,7 @@ public class CustomerService {
 
     public CustomerResponseDTO findById(Long id) {
         return repository.findById(id).map(CustomerResponseDTO::new)
-                .orElseThrow(() -> new ResourceNotFoundException("Consumidor não encontrado pelo id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Consumer not found by id: " + id));
     }
 
     public CustomerResponseDTO insert(CustomerRequestDTO data) {
@@ -35,20 +35,19 @@ public class CustomerService {
     }
 
     public void delete(Long id) {
-        try {
-            repository.deleteById(id);
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-        } // TODO Exception, Handler
+        if (!repository.existsById(id)) {
+            throw new ResourceNotFoundException("Consumer not found by id: " + id);
+        }
+        repository.deleteById(id);
     }
 
-    public CustomerResponseDTO update(Long id, CustomerRequestDTO costomerDTO) {
+    public CustomerResponseDTO update(Long id, CustomerRequestDTO customerDTO) {
         try {
             Customer obj = repository.getReferenceById(id);
-            updateData(obj, costomerDTO);
+            updateData(obj, customerDTO);
             return new CustomerResponseDTO(repository.save(obj));
         } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException("Consumidor não encontrado pelo id: " + id);
+            throw new ResourceNotFoundException("Consumer not found by id: " + id);
         }
     }
 
