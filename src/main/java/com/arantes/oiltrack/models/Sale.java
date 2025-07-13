@@ -1,5 +1,6 @@
 package com.arantes.oiltrack.models;
 
+import com.arantes.oiltrack.dto.sale.SaleRequestDTO;
 import com.arantes.oiltrack.models.enums.SaleStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
@@ -56,6 +57,14 @@ public class Sale {
         if (saleStatus != null) {
             this.saleStatus = saleStatus.getCode();
         }
+    }
+
+    public Sale(SaleRequestDTO data) {
+        this.dateSale = data.dateSale();
+        this.description = data.description();
+        this.totalValue = data.totalValue();
+        setSaleStatus(data.saleStatus());
+        this.observation = data.observation();
     }
 
 }
