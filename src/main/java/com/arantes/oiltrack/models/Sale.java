@@ -3,6 +3,7 @@ package com.arantes.oiltrack.models;
 import com.arantes.oiltrack.dto.sale.SaleRequestDTO;
 import com.arantes.oiltrack.models.enums.SaleStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.cglib.core.Local;
@@ -15,7 +16,7 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(of = { "id" })
 @Table(name = "tb_sales")
 public class Sale {
 
@@ -24,6 +25,7 @@ public class Sale {
     private Long id;
 
     @Setter
+    @NotNull(message = "The attribute dateSale is required")
     private LocalDate dateSale;
 
     @Setter
@@ -31,6 +33,7 @@ public class Sale {
     private String description;
 
     @Setter
+    @NotNull(message = "The attribute totalValue is required")
     private BigDecimal totalValue;
 
     private Integer saleStatus;
