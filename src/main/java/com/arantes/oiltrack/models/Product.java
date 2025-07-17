@@ -2,10 +2,14 @@ package com.arantes.oiltrack.models;
 
 
 import com.arantes.oiltrack.dto.product.ProductRequestDTO;
+import com.arantes.oiltrack.dto.productPrice.ProductPriceDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_products")
@@ -29,8 +33,14 @@ public class Product {
     @Size(max = 1000)
     private String description;
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductPrice> prices = new ArrayList<>();
+
     public Product(ProductRequestDTO data) {
         this.name = data.name();
         this.description = data.description();
+        this.prices = data.prices().stream()
+                .map(dto -> new ProductPrice(dto, this))
+                .toList();
     }
 }

@@ -4,6 +4,7 @@ import com.arantes.oiltrack.dto.product.ProductRequestDTO;
 import com.arantes.oiltrack.dto.product.ProductResponseDTO;
 import com.arantes.oiltrack.exceptions.custom.ResourceNotFoundException;
 import com.arantes.oiltrack.models.Product;
+import com.arantes.oiltrack.models.ProductPrice;
 import com.arantes.oiltrack.repositories.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,5 +51,11 @@ public class ProductService {
     private void UpdateData(Product product, ProductRequestDTO productDTO) {
         product.setName(productDTO.name());
         product.setDescription(productDTO.description());
+        product.getPrices().clear();
+
+        List<ProductPrice> updatedPrices = productDTO.prices().stream()
+                .map(priceDTO -> new ProductPrice(priceDTO, product)).toList();
+
+        product.getPrices().addAll(updatedPrices);
     }
 }
