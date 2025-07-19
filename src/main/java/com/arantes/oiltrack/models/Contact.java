@@ -1,6 +1,7 @@
 package com.arantes.oiltrack.models;
 
 import com.arantes.oiltrack.dto.contact.ContactRequestDTO;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -39,12 +40,18 @@ public class Contact {
     @Size(max = 20)
     private String phone;
 
-    public Contact(ContactRequestDTO data) {
+    @Setter
+    @ManyToOne
+    @JsonIgnoreProperties("contacts")
+    private Customer customer;
+
+    public Contact(ContactRequestDTO data, Customer customer) {
         this.name = data.name();
         this.sector = data.sector();
         this.landline = data.landline();
         this.extension = data.extension();
         this.phone = data.phone();
+        this.customer = customer;
     }
 
 }

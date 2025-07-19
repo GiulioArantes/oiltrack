@@ -60,6 +60,10 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("customer")
+    private List<Contact> contacts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("customer")
     private List<Visit> visits = new ArrayList<>();
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)

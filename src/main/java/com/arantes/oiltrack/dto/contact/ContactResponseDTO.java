@@ -7,7 +7,8 @@ public record ContactResponseDTO(Long id,
                                  String sector,
                                  String landline,
                                  String extension,
-                                 String phone) {
+                                 String phone,
+                                 String customerName) {
 
     public ContactResponseDTO(Contact contact) {
         this(contact.getId(),
@@ -15,6 +16,7 @@ public record ContactResponseDTO(Long id,
                 contact.getSector(),
                 contact.getLandline(),
                 contact.getExtension(),
-                contact.getPhone());
+                contact.getPhone(),
+                contact.getCustomer().getName());
     }
 }

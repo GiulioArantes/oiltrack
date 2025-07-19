@@ -4,5 +4,6 @@ public record ContactRequestDTO(String name,
                                 String sector,
                                 String landline,
                                 String extension,
-                                String phone) {
+                                String phone,
+                                Long customerId) {
 }
