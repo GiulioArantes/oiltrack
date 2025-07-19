@@ -1,6 +1,7 @@
 package com.arantes.oiltrack.models;
 
 import com.arantes.oiltrack.dto.visit.VisitRequestDTO;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -28,6 +29,11 @@ public class Visit {
     @Setter
     @Size(max = 500)
     private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+    @JsonIgnoreProperties("visit")
+    private Customer customer;
 
     public Visit(VisitRequestDTO data) {
         this.visitDate = data.visitDate();

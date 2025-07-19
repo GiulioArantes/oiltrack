@@ -6,10 +6,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.springframework.cglib.core.Local;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -32,22 +32,20 @@ public class Sale {
     @Size(max = 500)
     private String description;
 
-    @Setter
-    @NotNull(message = "The attribute totalValue is required")
-    private BigDecimal totalValue;
-
     private Integer saleStatus;
 
     @Setter
     @Size(max = 500)
     private String observation;
 
-    public Sale(Long id, LocalDate dateSale, String description, BigDecimal totalValue, SaleStatus saleStatus,
+    @OneToMany(mappedBy = "id.sale", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private Set<SaleItem> items = new HashSet<>();
+
+    public Sale(Long id, LocalDate dateSale, String description, SaleStatus saleStatus,
                 String observation) {
         this.id = id;
         this.dateSale = dateSale;
         this.description = description;
-        this.totalValue = totalValue;
         setSaleStatus(saleStatus);
         this.observation = observation;
     }
@@ -62,12 +60,20 @@ public class Sale {
         }
     }
 
+    public Double getTotal() {
+        double sum = 0.0;
+
+        for (SaleItem item : items) {
+            sum += item.getSubTotal();
+        }
+
+        return sum;
+    }
+
     public Sale(SaleRequestDTO data) {
         this.dateSale = data.dateSale();
         this.description = data.description();
-        this.totalValue = data.totalValue();
         setSaleStatus(data.saleStatus());
         this.observation = data.observation();
     }
-
 }
