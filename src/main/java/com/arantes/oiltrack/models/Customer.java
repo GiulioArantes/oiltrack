@@ -63,6 +63,10 @@ public class Customer {
     @JsonIgnoreProperties("customer")
     private List<Sale> sales = new ArrayList<>();
 
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("customer")
+    private List<AfterSales> afterSales = new ArrayList<>();
+
     public Customer(CustomerRequestDTO data) {
         this.name = data.name();
         this.corporateReason = data.corporateReason();

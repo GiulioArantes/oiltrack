@@ -1,6 +1,7 @@
 package com.arantes.oiltrack.models;
 
 import com.arantes.oiltrack.dto.afterSales.AfterSalesRequestDTO;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -33,9 +34,16 @@ public class AfterSales {
     @Size(max = 500)
     private String type;
 
-    public AfterSales(AfterSalesRequestDTO data) {
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+    @JsonIgnoreProperties("afterSales")
+    private Customer customer;
+
+    public AfterSales(AfterSalesRequestDTO data, Customer customer) {
         this.date = data.date();
         this.description = data.description();
         this.type = data.type();
+        this.customer = customer;
     }
 }
