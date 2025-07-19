@@ -1,7 +1,11 @@
 package com.arantes.oiltrack.services;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +16,7 @@ import com.arantes.oiltrack.models.Customer;
 import com.arantes.oiltrack.repositories.CustomerRepository;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.util.ReflectionUtils;
 
 @Service
 public class CustomerService {
@@ -49,6 +54,29 @@ public class CustomerService {
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Consumer not found by id: " + id);
         }
+    }
+
+    @Transactional
+    public CustomerResponseDTO updatePatch(Long id, Map<String, Object> fields) {
+            Customer obj = repository.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("Consumer not found by id: " + id));
+
+            merge(fields, obj);
+            return new CustomerResponseDTO(obj);
+    }
+
+    private void merge(Map<String, Object> fields, Customer customer) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Customer customerConvert = objectMapper.convertValue(fields, Customer.class);
+
+        fields.forEach((propertyName, propertyValue) -> {
+            Field field = ReflectionUtils.findField(Customer.class, propertyName);
+            field.setAccessible(true);
+
+            Object newValue = ReflectionUtils.getField(field, customerConvert);
+
+            ReflectionUtils.setField(field, customer, newValue);
+        });
     }
 
     private void updateData(Customer entity, CustomerRequestDTO receivedCustomerDTO) {
