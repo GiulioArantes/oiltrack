@@ -45,7 +45,7 @@ public class CustomerController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<CustomerResponseDTO> patch(@PathVariable Long id,
-                                      @RequestBody Map<String, Object> fields) {
+                                                     @RequestBody Map<String, Object> fields) {
         return ResponseEntity.ok(service.updatePatch(id, fields));
     }
 

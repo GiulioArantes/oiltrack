@@ -21,7 +21,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(of = { "name" })
-@EqualsAndHashCode(of = { "id" })
 @Table(name = "tb_customers")
 public class Customer {
 
@@ -37,6 +36,10 @@ public class Customer {
     @Setter
     @Size(max = 150)
     private String corporateReason;
+
+    @Setter
+    @Size(max = 20)
+    private String stateRegistration;
 
     @Setter
     @NotBlank

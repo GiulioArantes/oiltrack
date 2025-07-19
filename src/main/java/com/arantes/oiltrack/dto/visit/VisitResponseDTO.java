@@ -1,6 +1,5 @@
 package com.arantes.oiltrack.dto.visit;
 
-import com.arantes.oiltrack.dto.customer.CustomerResponseDTO;
 import com.arantes.oiltrack.models.Visit;
 
 import java.time.LocalDate;
