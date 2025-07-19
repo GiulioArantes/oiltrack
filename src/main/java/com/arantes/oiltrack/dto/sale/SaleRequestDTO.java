@@ -7,5 +7,5 @@ import java.time.LocalDate;
 import java.util.Set;
 
 public record SaleRequestDTO(LocalDate dateSale, String description, SaleStatus saleStatus,
-                             String observation, Set<SaleItemRequestDTO> items) {
+                             String observation, Set<SaleItemRequestDTO> items, Long customerId) {
 }

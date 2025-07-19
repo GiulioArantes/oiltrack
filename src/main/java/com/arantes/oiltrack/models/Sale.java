@@ -2,6 +2,7 @@ package com.arantes.oiltrack.models;
 
 import com.arantes.oiltrack.dto.sale.SaleRequestDTO;
 import com.arantes.oiltrack.models.enums.SaleStatus;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -41,6 +42,12 @@ public class Sale {
     @OneToMany(mappedBy = "id.sale", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<SaleItem> items = new HashSet<>();
 
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+    @JsonIgnoreProperties("sales")
+    private Customer customer;
+
     public Sale(Long id, LocalDate dateSale, String description, SaleStatus saleStatus,
                 String observation) {
         this.id = id;
@@ -70,10 +77,11 @@ public class Sale {
         return sum;
     }
 
-    public Sale(SaleRequestDTO data) {
+    public Sale(SaleRequestDTO data, Customer customer) {
         this.dateSale = data.dateSale();
         this.description = data.description();
         setSaleStatus(data.saleStatus());
         this.observation = data.observation();
+        this.customer = customer;
     }
 }
