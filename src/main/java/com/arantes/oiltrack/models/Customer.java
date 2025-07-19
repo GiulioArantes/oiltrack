@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -56,7 +57,7 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("customer")
-    private List<Visit> visits;
+    private List<Visit> visits = new ArrayList<>();
 
     public Customer(CustomerRequestDTO data) {
         this.name = data.name();

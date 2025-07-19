@@ -30,13 +30,15 @@ public class Visit {
     @Size(max = 500)
     private String description;
 
+    @Setter
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
-    @JsonIgnoreProperties("visit")
+    @JsonIgnoreProperties("visits")
     private Customer customer;
 
-    public Visit(VisitRequestDTO data) {
+    public Visit(VisitRequestDTO data, Customer customer) {
         this.visitDate = data.visitDate();
         this.description = data.description();
+        this.customer = customer;
     }
 }
