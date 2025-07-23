@@ -4,6 +4,7 @@ package com.arantes.oiltrack.models;
 import com.arantes.oiltrack.dto.product.ProductRequestDTO;
 import com.arantes.oiltrack.dto.productPrice.ProductPriceDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -20,7 +21,6 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(of = { "name" })
-@EqualsAndHashCode(of = { "id" })
 public class Product {
 
     @Id
@@ -31,6 +31,11 @@ public class Product {
     @Size(max = 100)
     @NotBlank(message = "The attribute is required")
     private String name;
+
+    @Setter
+    @ManyToOne
+    @JsonIgnoreProperties("products")
+    private Category category;
 
     @Setter
     @Size(max = 1000)
@@ -51,8 +56,9 @@ public class Product {
         return set;
     }
 
-    public Product(ProductRequestDTO data) {
+    public Product(ProductRequestDTO data, Category category) {
         this.name = data.name();
+        this.category = category;
         this.description = data.description();
         this.prices = data.prices().stream()
                 .map(dto -> new ProductPrice(dto, this))

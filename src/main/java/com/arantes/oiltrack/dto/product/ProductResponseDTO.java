@@ -5,12 +5,18 @@ import com.arantes.oiltrack.models.Product;
 
 import java.util.List;
 
-public record ProductResponseDTO(Long id, String name, String description,
+public record ProductResponseDTO(Long id,
+                                 String name,
+                                 String category,
+                                 String description,
                                  List<ProductPriceDTO> prices) {
 
     public ProductResponseDTO(Product product) {
 
-        this(product.getId(), product.getName(), product.getDescription(),
+        this(product.getId(),
+                product.getName(),
+                product.getCategory().getName(),
+                product.getDescription(),
                 product.getPrices().stream().map(ProductPriceDTO::new).toList());
     }
 }

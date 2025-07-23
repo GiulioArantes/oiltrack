@@ -3,8 +3,10 @@ package com.arantes.oiltrack.services;
 import com.arantes.oiltrack.dto.product.ProductRequestDTO;
 import com.arantes.oiltrack.dto.product.ProductResponseDTO;
 import com.arantes.oiltrack.exceptions.custom.ResourceNotFoundException;
+import com.arantes.oiltrack.models.Category;
 import com.arantes.oiltrack.models.Product;
 import com.arantes.oiltrack.models.ProductPrice;
+import com.arantes.oiltrack.repositories.CategoryRepository;
 import com.arantes.oiltrack.repositories.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ public class ProductService {
     @Autowired
     private ProductRepository repository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     public List<ProductResponseDTO> findAll() {
         return repository.findAll().stream().map(ProductResponseDTO::new).toList();
     }
@@ -28,7 +33,10 @@ public class ProductService {
     }
 
     public ProductResponseDTO insert(ProductRequestDTO data) {
-        Product product = repository.save(new Product(data));
+        Category category = categoryRepository.findById(data.categoryId())
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found by id: " + data.categoryId()));
+
+        Product product = repository.save(new Product(data, category));
         return new ProductResponseDTO(product);
     }
 
@@ -50,6 +58,11 @@ public class ProductService {
 
     private void UpdateData(Product product, ProductRequestDTO productDTO) {
         product.setName(productDTO.name());
+
+        Category category = categoryRepository.findById(productDTO.categoryId())
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found by id: " + productDTO.categoryId()));
+        product.setCategory(category);
+
         product.setDescription(productDTO.description());
         product.getPrices().clear();
 
